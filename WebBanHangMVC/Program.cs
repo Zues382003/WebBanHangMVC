@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using WebBanHangMVC.Models;
+using WebBanHangMVC.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("MasterContext");
+builder.Services.AddDbContext<MasterContext>(x=>x.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<ILoaiSpRepository, LoaiSpRepository>();
 
 var app = builder.Build();
 
