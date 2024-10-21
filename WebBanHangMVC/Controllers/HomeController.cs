@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebBanHangMVC.Models;
+using WebBanHangMVC.ViewModels;
 using X.PagedList;
 
 namespace WebBanHangMVC.Controllers
@@ -23,6 +24,28 @@ namespace WebBanHangMVC.Controllers
 			var listProduct = db.TDanhMucSps.AsNoTracking().OrderBy(x => x.TenSp);
 			PagedList<TDanhMucSp> list = new PagedList<TDanhMucSp>(listProduct, pageNumber, pageSize);
 			return View(list);
+		}
+
+		public IActionResult SanPhamTheoLoai(String maloai, int? page)
+		{
+			int pageSize = 8;
+			int pageNumber = page == null || page < 0 ? 1 : page.Value;
+			var listProduct = db.TDanhMucSps.AsNoTracking().Where(x => x.MaLoai == maloai).OrderBy(x => x.TenSp);
+			PagedList<TDanhMucSp> list = new PagedList<TDanhMucSp>(listProduct, pageNumber, pageSize);
+			ViewBag.maLoai = maloai;
+			return View(list);
+		}
+
+		public IActionResult ProductDetail(String maSp)
+		{
+			var sanPham = db.TDanhMucSps.SingleOrDefault(x => x.MaSp == maSp);
+			var anhSanPham = db.TAnhSps.Where(x => x.MaSp == maSp).ToList();
+			var productDetail = new HomeProductDetailViewModel
+			{
+				danhMucSp = sanPham,
+				anhSps = anhSanPham,
+			};
+			return View(productDetail);	
 		}
 
 		public IActionResult Privacy()
