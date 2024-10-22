@@ -29,6 +29,16 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
             return View(list);
         }
 
+        [Route("danhsachnguoidung")]
+        public IActionResult DanhSachNguoiDung(int? page)
+        {
+            int pageSize = 16;
+            int pageNumber = page == null || page < 0 ? 1 : page.Value;
+            var listUser = db.TUsers.AsNoTracking().OrderBy(x => x.Username);
+            PagedList<TUser> list = new PagedList<TUser>(listUser, pageNumber, pageSize);
+            return View(list);
+        }
+
         [Route("ThemSanPhamMoi")]
         [HttpGet]
         public IActionResult ThemSanPhamMoi()
