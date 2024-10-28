@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebBanHangMVC.Models;
+using WebBanHangMVC.Models.Authentication;
 using X.PagedList;
 
 namespace WebBanHangMVC.Areas.Admin.Controllers
@@ -14,12 +15,14 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
         MasterContext db = new MasterContext();
         [Route("")]
         [Route("index")]
+        [Authentication]
         public IActionResult Index()
         {
             return View();
         }
 
         [Route("danhmucsanpham")]
+        [Authentication]
         public IActionResult DanhMucSanPham(int? page)
         {
             int pageSize = 16;
@@ -30,6 +33,7 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
         }
 
         [Route("danhsachnguoidung")]
+        [Authentication]
         public IActionResult DanhSachNguoiDung(int? page)
         {
             int pageSize = 16;
@@ -41,6 +45,7 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
 
         [Route("ThemSanPhamMoi")]
         [HttpGet]
+        [Authentication]
         public IActionResult ThemSanPhamMoi()
         {
             ViewBag.MaChatLieu = new SelectList(db.TChatLieus.ToList(), "MaChatLieu", "ChatLieu");
@@ -54,6 +59,7 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
 
         [Route("ThemSanPhamMoi")]
         [HttpPost]
+        [Authentication]
         [ValidateAntiForgeryToken]
         public IActionResult ThemSanPham(TDanhMucSp sanPham)
         {
@@ -68,6 +74,7 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
 
         [Route("SuaSanPham")]
         [HttpGet]
+        [Authentication]
         public IActionResult SuaSanPham(string maSp)
         {
             ViewBag.MaChatLieu = new SelectList(db.TChatLieus.ToList(), "MaChatLieu", "ChatLieu");
@@ -86,6 +93,7 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
         [Route("SuaSanPham")]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authentication]
         public IActionResult SuaSanPham(TDanhMucSp sanPham)
         {
             if (ModelState.IsValid)
@@ -99,6 +107,7 @@ namespace WebBanHangMVC.Areas.Admin.Controllers
 
         [Route("XoaSanPham")]
         [HttpGet]
+        [Authentication]
         public IActionResult XoaSanPham(string maSp)
         {
             TempData["Message"] = "";

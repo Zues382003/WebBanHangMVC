@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebBanHangMVC.Models;
+using WebBanHangMVC.Models.Authentication;
 using WebBanHangMVC.ViewModels;
 using X.PagedList;
 
@@ -17,6 +18,7 @@ namespace WebBanHangMVC.Controllers
 			_logger = logger;
 		}
 
+		[Authentication]
 		public IActionResult Index(int? page)
 		{
 			int pageSize = 8;
@@ -26,7 +28,8 @@ namespace WebBanHangMVC.Controllers
 			return View(list);
 		}
 
-		public IActionResult SanPhamTheoLoai(String maloai, int? page)
+        [Authentication]
+        public IActionResult SanPhamTheoLoai(String maloai, int? page)
 		{
 			int pageSize = 8;
 			int pageNumber = page == null || page < 0 ? 1 : page.Value;
@@ -36,7 +39,8 @@ namespace WebBanHangMVC.Controllers
 			return View(list);
 		}
 
-		public IActionResult ProductDetail(String maSp)
+        [Authentication]
+        public IActionResult ProductDetail(String maSp)
 		{
 			var sanPham = db.TDanhMucSps.SingleOrDefault(x => x.MaSp == maSp);
 			var anhSanPham = db.TAnhSps.Where(x => x.MaSp == maSp).ToList();
@@ -48,7 +52,8 @@ namespace WebBanHangMVC.Controllers
 			return View(productDetail);	
 		}
 
-		public IActionResult Privacy()
+        [Authentication]
+        public IActionResult Privacy()
 		{
 			return View();
 		}
